@@ -94,7 +94,6 @@ Just re-execute `terraform apply` and you will be fine.
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.0 |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.74 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | >= 1.2, < 3.0.0 |
 
 ## Providers
 
@@ -122,6 +121,10 @@ Just re-execute `terraform apply` and you will be fine.
 | [aws_flow_log.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/flow_log) | resource |
 | [aws_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_nat_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
+| [aws_network_acl.data_acl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl_rule.data_acl_additional_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.data_acl_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.data_acl_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
 | [aws_redshift_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_subnet_group) | resource |
 | [aws_route.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.data](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
@@ -134,6 +137,7 @@ Just re-execute `terraform apply` and you will be fine.
 | [aws_route_table_association.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_s3_bucket.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
+| [aws_s3_bucket_public_access_block.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_subnet.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.data](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
@@ -155,10 +159,12 @@ Just re-execute `terraform apply` and you will be fine.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_app_subnet_tags"></a> [additional\_app\_subnet\_tags](#input\_additional\_app\_subnet\_tags) | A map of additional tags to add to the application subnet | `map` | `{}` | no |
+| <a name="input_additional_data_subnet_network_acl_ingress"></a> [additional\_data\_subnet\_network\_acl\_ingress](#input\_additional\_data\_subnet\_network\_acl\_ingress) | List of CIDR blocks to add ingress to data subnet in multi tier VPC. | `list(string)` | `[]` | no |
 | <a name="input_additional_data_subnet_tags"></a> [additional\_data\_subnet\_tags](#input\_additional\_data\_subnet\_tags) | A map of additional tags to add to the data subnet | `map` | `{}` | no |
 | <a name="input_additional_public_subnet_tags"></a> [additional\_public\_subnet\_tags](#input\_additional\_public\_subnet\_tags) | A map of additional tags to add to the public subnet | `map` | `{}` | no |
 | <a name="input_additional_tags"></a> [additional\_tags](#input\_additional\_tags) | A map of additional tags to add to all resources | `map` | `{}` | no |
 | <a name="input_additional_vpc_tags"></a> [additional\_vpc\_tags](#input\_additional\_vpc\_tags) | A map of additional tags to add to the vpc | `map` | `{}` | no |
+| <a name="input_enable_data_subnet_network_acl_ingress"></a> [enable\_data\_subnet\_network\_acl\_ingress](#input\_enable\_data\_subnet\_network\_acl\_ingress) | Whether to enable ingress from app subnet to data subnet in multi tier VPC. | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Type of environment these resources belong to. | `string` | n/a | yes |
 | <a name="input_flow_logs_log_group_retention_period"></a> [flow\_logs\_log\_group\_retention\_period](#input\_flow\_logs\_log\_group\_retention\_period) | Specifies the number of days you want to retain log events in the specified log group. | `string` | `"14"` | no |
 | <a name="input_flowlogs_bucket_retention_in_days"></a> [flowlogs\_bucket\_retention\_in\_days](#input\_flowlogs\_bucket\_retention\_in\_days) | FlowLogs bucket retention (in days) | `number` | `365` | no |

@@ -95,3 +95,15 @@ variable "transition_to_glacier_ir_in_days" {
   type        = number
 }
 
+variable "enable_data_subnet_network_acl_ingress" {
+  description = "Whether to enable ingress from app subnet to data subnet in multi tier VPC."
+  default     = false
+  type        = bool
+}
+
+variable "additional_data_subnet_network_acl_ingress" {
+  description = "List of CIDR blocks to add ingress to data subnet in multi tier VPC."
+  type        = list(string)
+
+  default = []
+}

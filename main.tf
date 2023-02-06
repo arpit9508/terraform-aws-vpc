@@ -151,6 +151,64 @@ resource "aws_subnet" "data" {
   )
 }
 
+# Provides Network ACL for data subnet (Private).
+# Only created when the VPC is multi-tier.
+resource "aws_network_acl" "data_acl" {
+  count = var.enable_data_subnet_network_acl_ingress == true ? (var.vpc_multi_tier ? "1" : "0") : "0"
+
+  vpc_id     = aws_vpc.this.id
+  subnet_ids = aws_subnet.data.*.id
+  tags = merge(
+    local.common_tags,
+    {
+      "Name" = format("%s-data-acl", var.vpc_name)
+    },
+    {
+      "Description" = format("Network ACL for data subnet in %s VPC", var.vpc_name)
+    },
+  )
+}
+
+# Allow ingress from app subnet and data subnet CIDRs
+resource "aws_network_acl_rule" "data_acl_ingress" {
+  count = var.enable_data_subnet_network_acl_ingress == true ? (var.vpc_multi_tier ? length(var.subnet_availability_zones) * 2 : "0") : "0"
+
+  network_acl_id = aws_network_acl.data_acl[0].id
+  rule_number    = 100 + count.index
+  egress         = false
+  protocol       = "-1"
+  rule_action    = "allow"
+  cidr_block     = element(concat(aws_subnet.app.*.cidr_block, aws_subnet.data.*.cidr_block), count.index)
+  from_port      = "0"
+  to_port        = "0"
+}
+
+resource "aws_network_acl_rule" "data_acl_additional_ingress" {
+  count = var.enable_data_subnet_network_acl_ingress == true ? (var.vpc_multi_tier ? length(var.additional_data_subnet_network_acl_ingress) : "0") : "0"
+
+  network_acl_id = aws_network_acl.data_acl[0].id
+  rule_number    = 100 + length(var.subnet_availability_zones) * 2 + count.index
+  egress         = false
+  protocol       = "-1"
+  rule_action    = "allow"
+  cidr_block     = element(var.additional_data_subnet_network_acl_ingress, count.index)
+  from_port      = "0"
+  to_port        = "0"
+}
+
+resource "aws_network_acl_rule" "data_acl_egress" {
+  count = var.enable_data_subnet_network_acl_ingress == true ? (var.vpc_multi_tier ? "1" : "0") : "0"
+
+  network_acl_id = aws_network_acl.data_acl[0].id
+  rule_number    = 100
+  egress         = true
+  protocol       = "-1"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = "0"
+  to_port        = "0"
+}
+
 # Provides an RDS DB subnet group resource.
 # Only created when the VPC is multi-tier.
 resource "aws_db_subnet_group" "this" {
@@ -659,10 +717,10 @@ resource "aws_s3_bucket" "flowlogs_to_s3" {
 resource "aws_s3_bucket_public_access_block" "flowlogs_to_s3" {
   bucket = aws_s3_bucket.flowlogs_to_s3.id
 
-  block_public_acls        = true
-  block_public_policy      = true
-  ignore_public_acls       = true
-  restrict_public_buckets  = true
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_policy" "flowlogs_to_s3" {
