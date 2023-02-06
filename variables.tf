@@ -96,7 +96,7 @@ variable "transition_to_glacier_ir_in_days" {
 }
 
 variable "enable_data_subnet_network_acl_ingress" {
-  description = "Whether to enable ingress from app subnet to data subnet in multi tier VPC."
+  description = "Set to true to enable ACL to ingress from app subnet to data subnet in multi tier VPC, which block ingress from public subnet to data subnet."
   default     = false
   type        = bool
 }
