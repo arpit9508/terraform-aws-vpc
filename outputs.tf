@@ -206,5 +206,23 @@ output "vpce_dynamodb_cidr_blocks" {
   value       = flatten(aws_vpc_endpoint.dynamodb.*.cidr_blocks)
 }
 
+output "vpce_cloudwatch_logs_id" {
+  description = "The ID of VPC endpoint for Cloudwatch Logs"
+  value       = element(concat(aws_vpc_endpoint.cloudwatch_logs.*.id, [""]), "0")
+}
+
+output "vpce_cloudwatch_logs_prefix_list_id" {
+  description = "The prefix list for the Cloudwatch Logs VPC endpoint."
+  value = element(
+    concat(aws_vpc_endpoint.cloudwatch_logs.*.prefix_list_id, [""]),
+    "0",
+  )
+}
+
+output "vpce_cloudwatch_logs_cidr_blocks" {
+  description = "The list of CIDR blocks for Cloudwatch Logs service."
+  value       = flatten(aws_vpc_endpoint.cloudwatch_logs.*.cidr_blocks)
+}
+
 # In case you are wondering why there are so many ugly interpolation: 
 # https://github.com/hashicorp/terraform/issues/16726

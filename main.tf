@@ -1,8 +1,5 @@
 # This module was created using terraform 0.11.4 at 2018/03/21.
 # This module was updated to terraform 0.13.7 on 2021/09/21.
-terraform {
-  required_version = ">= 0.12.0"
-}
 
 # Contains local values that are used to increase DRYness of the code.
 locals {
@@ -759,4 +756,41 @@ resource "aws_flow_log" "flowlogs_to_s3" {
   )
 
   depends_on = [aws_s3_bucket.flowlogs_to_s3]
+}
+
+# Provides a VPC Endpoint resource for CloudWatch Logs.
+resource "aws_vpc_endpoint" "cloudwatch_logs" {
+  vpc_id            = aws_vpc.this.id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.logs"
+  vpc_endpoint_type = "Interface"
+
+  subnet_ids          = aws_subnet.app.*.id
+  private_dns_enabled = true
+
+  tags = merge(
+    local.common_tags,
+    {
+      "Name" = format("%s-cloudwatch-logs-endpoint", var.vpc_name)
+    },
+  )
+}
+
+resource "aws_vpc_endpoint_policy" "cloudwatch_logs" {
+  vpc_endpoint_id = aws_vpc_endpoint.cloudwatch_logs.id
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "AllowAll",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : "*"
+        },
+        "Action" : [
+          "*"
+        ],
+        "Resource" : "*"
+      }
+    ]
+  })
 }

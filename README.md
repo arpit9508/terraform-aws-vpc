@@ -144,6 +144,8 @@ Just re-execute `terraform apply` and you will be fine.
 | [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
 | [aws_vpc_endpoint.dynamodb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint.cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint_policy.cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_policy) | resource |
 | [aws_vpc_endpoint_route_table_association.dynamodb_app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_route_table_association) | resource |
 | [aws_vpc_endpoint_route_table_association.dynamodb_data](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_route_table_association) | resource |
 | [aws_vpc_endpoint_route_table_association.dynamodb_public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_route_table_association) | resource |
@@ -224,6 +226,9 @@ Just re-execute `terraform apply` and you will be fine.
 | <a name="output_vpce_s3_cidr_blocks"></a> [vpce\_s3\_cidr\_blocks](#output\_vpce\_s3\_cidr\_blocks) | The list of CIDR blocks for S3 service. |
 | <a name="output_vpce_s3_id"></a> [vpce\_s3\_id](#output\_vpce\_s3\_id) | The ID of VPC endpoint for S3 |
 | <a name="output_vpce_s3_prefix_list_id"></a> [vpce\_s3\_prefix\_list\_id](#output\_vpce\_s3\_prefix\_list\_id) | The prefix list for the S3 VPC endpoint. |
+| <a name="output_vpce_cloudwatch_logs_cidr_blocks"></a> [vpce\_cloudwatch_logs\_cidr\_blocks](#output\_vpce\_cloudwatch_logs\_cidr\_blocks) | The list of CIDR blocks for S3 service. |
+| <a name="output_vpce_cloudwatch_logs_id"></a> [vpce\_cloudwatch_logs\_id](#output\_vpce\_cloudwatch_logs\_id) | The ID of VPC endpoint for S3 |
+| <a name="output_vpce_cloudwatch_logs_prefix_list_id"></a> [vpce\_cloudwatch_logs\_prefix\_list\_id](#output\_vpce\_cloudwatch_logs\_prefix\_list\_id) | The prefix list for the S3 VPC endpoint. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
