@@ -211,17 +211,19 @@ output "vpce_cloudwatch_logs_id" {
   value       = element(concat(aws_vpc_endpoint.cloudwatch_logs.*.id, [""]), "0")
 }
 
-output "vpce_cloudwatch_logs_prefix_list_id" {
-  description = "The prefix list for the Cloudwatch Logs VPC endpoint."
-  value = element(
-    concat(aws_vpc_endpoint.cloudwatch_logs.*.prefix_list_id, [""]),
-    "0",
-  )
+output "vpce_cloudwatch_logs_network_interface_ids" {
+  description = "One or more network interfaces for the VPC Endpoint. Applicable for endpoints of type Interface."
+  value       = element(concat(aws_vpc_endpoint.cloudwatch_logs.*.network_interface_ids, [""]), "0")
 }
 
-output "vpce_cloudwatch_logs_cidr_blocks" {
-  description = "The list of CIDR blocks for Cloudwatch Logs service."
-  value       = flatten(aws_vpc_endpoint.cloudwatch_logs.*.cidr_blocks)
+output "vpce_cloudwatch_logs_security_group_id" {
+  description = "The ID of the security group for Cloudwatch Logs VPC endpoint."
+  value       = aws_security_group.cloudwatch_logs_sg.id
+}
+
+output "vpce_cloudwatch_logs_security_group_rule_id" {
+  description = "The ID of the security group rule for Cloudwatch Logs VPC endpoint."
+  value       = aws_security_group_rule.ingress_cloudwatch_logs_sg.id
 }
 
 # In case you are wondering why there are so many ugly interpolation: 

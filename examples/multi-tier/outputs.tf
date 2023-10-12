@@ -203,3 +203,22 @@ output "vpce_dynamodb_cidr_blocks" {
   value       = module.staging.vpce_dynamodb_cidr_blocks
 }
 
+output "vpce_cloudwatch_logs_id" {
+  description = "The ID of VPC endpoint for Cloudwatch Logs"
+  value = module.staging.vpce_cloudwatch_logs_id
+}
+
+output "vpce_cloudwatch_logs_network_interface_ids" {
+  description = "One or more network interfaces for the VPC Endpoint. Applicable for endpoints of type Interface."
+  value = module.staging.vpce_cloudwatch_logs_network_interface_ids
+}
+
+output "vpce_cloudwatch_logs_security_group_id" {
+  description = "The ID of the security group for Cloudwatch Logs VPC endpoint."
+  value = module.staging.vpce_cloudwatch_logs_security_group_id
+}
+
+output "vpce_cloudwatch_logs_security_group_rule_id" {
+  description = "The ID of the security group rule for Cloudwatch Logs VPC endpoint."
+  value = module.staging.vpce_cloudwatch_logs_security_group_rule_id
+}

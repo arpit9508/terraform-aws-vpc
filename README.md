@@ -106,6 +106,7 @@ Just re-execute `terraform apply` and you will be fine.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_flowlogs_to_s3_naming"></a> [flowlogs\_to\_s3\_naming](#module\_flowlogs\_to\_s3\_naming) | git@github.com:traveloka/terraform-aws-resource-naming.git | v0.20.0 |
+| <a name="module_cloudwatch_logs_sg_naming"></a> [cloudwatch\_logs\_sg\_naming](#module\_cloudwatch\_logs\_sg\_naming) | git@github.com:traveloka/terraform-aws-resource-naming.git | v0.24.1 |
 
 ## Resources
 
@@ -138,6 +139,8 @@ Just re-execute `terraform apply` and you will be fine.
 | [aws_s3_bucket.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.flowlogs_to_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_security_group.cloudwatch_logs_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group_rule.ingress_cloudwatch_logs_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_subnet.app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.data](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
@@ -220,15 +223,16 @@ Just re-execute `terraform apply` and you will be fine.
 | <a name="output_vpc_instance_tenancy"></a> [vpc\_instance\_tenancy](#output\_vpc\_instance\_tenancy) | Tenancy of instances spin up within VPC. |
 | <a name="output_vpc_main_route_table_id"></a> [vpc\_main\_route\_table\_id](#output\_vpc\_main\_route\_table\_id) | The ID of the main route table associated with this VPC. |
 | <a name="output_vpc_multi_tier"></a> [vpc\_multi\_tier](#output\_vpc\_multi\_tier) | Whether or not the VPC has Multi Tier subnets. |
+| <a name="output_vpce_cloudwatch_logs_id"></a> [vpce\_cloudwatch_logs\_id](#output\_vpce\_cloudwatch_logs\_id) | The ID of VPC endpoint for Cloudwatch Logs |
+| <a name="output_vpce_cloudwatch_logs_network_interface_ids"></a> [vpce\_cloudwatch_logs\_network\_interface\_ids](#output\_vpce\_cloudwatch_logs\_network\_interface\_ids) | One or more network interfaces for the VPC Endpoint. Applicable for endpoints of type `Interface`. |
+| <a name="output_vpce_cloudwatch_logs_security_group_id"></a> [vpce\_cloudwatch_logs\_security_group\_id](#output\_vpce\_cloudwatch_logs\_security_group\_id) | The ID of the security group for Cloudwatch Logs VPC endpoint. |
+| <a name="output_vpce_cloudwatch_logs_security_group_rule_id"></a> [vpce\_cloudwatch_logs\_security_group_rule\_id](#output\_vpce\_cloudwatch_logs\_security_group_rule\_id) | The ID of the security group rule for Cloudwatch Logs VPC endpoint. |
 | <a name="output_vpce_dynamodb_cidr_blocks"></a> [vpce\_dynamodb\_cidr\_blocks](#output\_vpce\_dynamodb\_cidr\_blocks) | The list of CIDR blocks for DynamoDB service. |
 | <a name="output_vpce_dynamodb_id"></a> [vpce\_dynamodb\_id](#output\_vpce\_dynamodb\_id) | The ID of VPC endpoint for DynamoDB |
 | <a name="output_vpce_dynamodb_prefix_list_id"></a> [vpce\_dynamodb\_prefix\_list\_id](#output\_vpce\_dynamodb\_prefix\_list\_id) | The prefix list for the DynamoDB VPC endpoint. |
 | <a name="output_vpce_s3_cidr_blocks"></a> [vpce\_s3\_cidr\_blocks](#output\_vpce\_s3\_cidr\_blocks) | The list of CIDR blocks for S3 service. |
 | <a name="output_vpce_s3_id"></a> [vpce\_s3\_id](#output\_vpce\_s3\_id) | The ID of VPC endpoint for S3 |
 | <a name="output_vpce_s3_prefix_list_id"></a> [vpce\_s3\_prefix\_list\_id](#output\_vpce\_s3\_prefix\_list\_id) | The prefix list for the S3 VPC endpoint. |
-| <a name="output_vpce_cloudwatch_logs_cidr_blocks"></a> [vpce\_cloudwatch_logs\_cidr\_blocks](#output\_vpce\_cloudwatch_logs\_cidr\_blocks) | The list of CIDR blocks for S3 service. |
-| <a name="output_vpce_cloudwatch_logs_id"></a> [vpce\_cloudwatch_logs\_id](#output\_vpce\_cloudwatch_logs\_id) | The ID of VPC endpoint for S3 |
-| <a name="output_vpce_cloudwatch_logs_prefix_list_id"></a> [vpce\_cloudwatch_logs\_prefix\_list\_id](#output\_vpce\_cloudwatch_logs\_prefix\_list\_id) | The prefix list for the S3 VPC endpoint. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 

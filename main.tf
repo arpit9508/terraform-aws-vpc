@@ -760,12 +760,15 @@ resource "aws_flow_log" "flowlogs_to_s3" {
 
 # Provides a VPC Endpoint resource for CloudWatch Logs.
 resource "aws_vpc_endpoint" "cloudwatch_logs" {
-  vpc_id            = aws_vpc.this.id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.logs"
-  vpc_endpoint_type = "Interface"
-
+  vpc_id              = aws_vpc.this.id
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
+  vpc_endpoint_type   = "Interface"
   subnet_ids          = aws_subnet.app.*.id
   private_dns_enabled = true
+
+  security_group_ids = [
+    aws_security_group.cloudwatch_logs_sg.id,
+  ]
 
   tags = merge(
     local.common_tags,
@@ -775,6 +778,7 @@ resource "aws_vpc_endpoint" "cloudwatch_logs" {
   )
 }
 
+# Provides a VPC Endpoint's policy for CloudWatch Logs.
 resource "aws_vpc_endpoint_policy" "cloudwatch_logs" {
   vpc_endpoint_id = aws_vpc_endpoint.cloudwatch_logs.id
   policy = jsonencode({
@@ -793,4 +797,37 @@ resource "aws_vpc_endpoint_policy" "cloudwatch_logs" {
       }
     ]
   })
+}
+
+# Provides AWS Security Group for CloudWatch Logs VPC Endpoint
+module "cloudwatch_logs_sg_naming" {
+  source        = "git@github.com:traveloka/terraform-aws-resource-naming.git?ref=v0.24.1"
+  name_prefix   = "cloudwatch-logs-endpoint"
+  resource_type = "security_group"
+}
+
+resource "aws_security_group" "cloudwatch_logs_sg" {
+  name        = module.cloudwatch_logs_sg_naming.name
+  vpc_id      = aws_vpc.this.id
+  description = format("Security group for %s-cloudwatch-logs-endpoint", var.vpc_name)
+
+  tags = merge(
+    local.common_tags,
+    {
+      "Name" = format("%s-cloudwatch-logs-endpoint", var.vpc_name)
+    },
+    {
+      "Description" = format("Security group for %s-cloudwatch-logs-endpoint", var.vpc_name)
+    },
+  )
+}
+
+# Provides AWS Security Group Rule for CloudWatch Logs VPC Endpoint
+resource "aws_security_group_rule" "ingress_cloudwatch_logs_sg" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.cloudwatch_logs_sg.id
+  cidr_blocks       = [var.vpc_cidr_block]
 }
