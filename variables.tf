@@ -91,7 +91,7 @@ variable "flowlogs_s3_logging_bucket_name" {
 
 variable "transition_to_glacier_ir_in_days" {
   description = "Days stored in standard class before transition to glacier"
-  default     = 30
+  default     = 180
   type        = number
 }
 
